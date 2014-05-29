@@ -1,0 +1,273 @@
+<!doctype HTML>
+<meta charset = 'utf-8'>
+<html>
+  <head>
+    <link rel='stylesheet' href='http://nvd3.org/assets/css/nv.d3.css'>
+    
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js' type='text/javascript'></script>
+    <script src='http://d3js.org/d3.v3.min.js' type='text/javascript'></script>
+    <script src='http://timelyportfolio.github.io/rCharts_nvd3_tests/libraries/widgets/nvd3/js/nv.d3.min-new.js' type='text/javascript'></script>
+    <script src='http://nvd3.org/assets/lib/fisheye.js' type='text/javascript'></script>
+    
+    <style>
+    .rChart {
+      display: block;
+      margin-left: auto; 
+      margin-right: auto;
+      width: 800px;
+      height: 400px;
+    }  
+    </style>
+    
+  </head>
+  <body>
+    <div id='chart186453a5e50' class='rChart nvd3'></div>  
+    
+    <script type='text/javascript'>
+ $(document).ready(function(){
+      drawchart186453a5e50()
+    });
+    function drawchart186453a5e50(){  
+      var opts = {
+ "dom": "chart186453a5e50",
+"width":    800,
+"height":    400,
+"x": "supp_ctry",
+"y": "amount",
+"group": "major_sector",
+"type": "multiBarChart",
+"id": "chart186453a5e50" 
+},
+        data = [
+ {
+ "supp_ctry": "Canada",
+"major_sector": "Agriculture",
+"amount": 33000 
+},
+{
+ "supp_ctry": "China",
+"major_sector": "Agriculture",
+"amount": 397556 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Agriculture",
+"amount": 6938317 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Agriculture",
+"amount": 1244216 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Education",
+"amount": 18181028 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Education",
+"amount": 286009 
+},
+{
+ "supp_ctry": "Canada",
+"major_sector": "Energy & mining",
+"amount": 459674 
+},
+{
+ "supp_ctry": "China",
+"major_sector": "Energy & mining",
+"amount": 13711241 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Energy & mining",
+"amount": 40777499 
+},
+{
+ "supp_ctry": "Singapore",
+"major_sector": "Energy & mining",
+"amount": 14652552 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Energy & mining",
+"amount": 2758925 
+},
+{
+ "supp_ctry": "Canada",
+"major_sector": "Finance",
+"amount": 2848400 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Finance",
+"amount": 2123582 
+},
+{
+ "supp_ctry": "Singapore",
+"major_sector": "Finance",
+"amount": 97760 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Finance",
+"amount": 855416 
+},
+{
+ "supp_ctry": "Canada",
+"major_sector": "Health & social serv",
+"amount": 24000 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Health & social serv",
+"amount": 3942723 
+},
+{
+ "supp_ctry": "Singapore",
+"major_sector": "Health & social serv",
+"amount": 11400 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Health & social serv",
+"amount": 145040 
+},
+{
+ "supp_ctry": "China",
+"major_sector": "Industry and trade",
+"amount": 279134 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Industry and trade",
+"amount": 846383 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Industry and trade",
+"amount": 623205 
+},
+{
+ "supp_ctry": "Canada",
+"major_sector": "Info & communication",
+"amount": 588580 
+},
+{
+ "supp_ctry": "China",
+"major_sector": "Info & communication",
+"amount": 150000 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Info & communication",
+"amount": 5264762 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Info & communication",
+"amount": 596329 
+},
+{
+ "supp_ctry": "Canada",
+"major_sector": "Public admin, Law",
+"amount": 7022492 
+},
+{
+ "supp_ctry": "China",
+"major_sector": "Public admin, Law",
+"amount": 989809 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Public admin, Law",
+"amount": 13422694 
+},
+{
+ "supp_ctry": "Singapore",
+"major_sector": "Public admin, Law",
+"amount": 20200 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Public admin, Law",
+"amount": 3870867 
+},
+{
+ "supp_ctry": "China",
+"major_sector": "Transportation",
+"amount": 20211742 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Transportation",
+"amount": 24528027 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Transportation",
+"amount": 295110 
+},
+{
+ "supp_ctry": "China",
+"major_sector": "Water/sanit/fld prot",
+"amount": 7531357 
+},
+{
+ "supp_ctry": "Mongolia",
+"major_sector": "Water/sanit/fld prot",
+"amount": 28137063 
+},
+{
+ "supp_ctry": "United States",
+"major_sector": "Water/sanit/fld prot",
+"amount": 844191 
+} 
+]
+  
+      if(!(opts.type==="pieChart" || opts.type==="sparklinePlus")) {
+        var data = d3.nest()
+          .key(function(d){
+            //return opts.group === undefined ? 'main' : d[opts.group]
+            //instead of main would think a better default is opts.x
+            return opts.group === undefined ? opts.y : d[opts.group];
+          })
+          .entries(data);
+      }
+      
+      if (opts.disabled != undefined){
+        data.map(function(d, i){
+          d.disabled = opts.disabled[i]
+        })
+      }
+      
+      nv.addGraph(function() {
+        var chart = nv.models[opts.type]()
+          .x(function(d) { return d[opts.x] })
+          .y(function(d) { return d[opts.y] })
+          .width(opts.width)
+          .height(opts.height)
+         
+        
+          
+        
+
+        
+        
+        
+      
+       d3.select("#" + opts.id)
+        .append('svg')
+        .datum(data)
+        .transition().duration(500)
+        .call(chart);
+
+       nv.utils.windowResize(chart.update);
+       return chart;
+      });
+    };
+</script>
+    
+  </body>
+</html>

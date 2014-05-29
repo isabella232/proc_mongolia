@@ -1,0 +1,263 @@
+<!doctype HTML>
+<meta charset = 'utf-8'>
+<html>
+  <head>
+    <link rel='stylesheet' href='http://nvd3.org/assets/css/nv.d3.css'>
+    
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js' type='text/javascript'></script>
+    <script src='http://d3js.org/d3.v3.min.js' type='text/javascript'></script>
+    <script src='http://timelyportfolio.github.io/rCharts_nvd3_tests/libraries/widgets/nvd3/js/nv.d3.min-new.js' type='text/javascript'></script>
+    <script src='http://nvd3.org/assets/lib/fisheye.js' type='text/javascript'></script>
+    
+    <style>
+    .rChart {
+      display: block;
+      margin-left: auto; 
+      margin-right: auto;
+      width: 800px;
+      height: 400px;
+    }  
+    </style>
+    
+  </head>
+  <body>
+    <div id='chart1788798375a7' class='rChart nvd3'></div>  
+    
+    <script type='text/javascript'>
+ $(document).ready(function(){
+      drawchart1788798375a7()
+    });
+    function drawchart1788798375a7(){  
+      var opts = {
+ "dom": "chart1788798375a7",
+"width":    800,
+"height":    400,
+"x": "major_sector",
+"y": "amount",
+"group": "proc_categ",
+"type": "multiBarChart",
+"id": "chart1788798375a7" 
+},
+        data = [
+ {
+ "proc_categ": "Civil Works",
+"major_sector": "Agriculture",
+"amount": 221132 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Education",
+"amount": 8183701 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Energy & mining",
+"amount": 2084431 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Finance",
+"amount": 9000 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Health & social serv",
+"amount": 514346 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Industry and trade",
+"amount": 604450 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Info & communication",
+"amount": 325729 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Public admin, Law",
+"amount": 7827078 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Transportation",
+"amount": 42188589 
+},
+{
+ "proc_categ": "Civil Works",
+"major_sector": "Water/sanit/fld prot",
+"amount": 15721145 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "(H)Environment",
+"amount": 49000 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Agriculture",
+"amount": 7553740 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Education",
+"amount": 1246340 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Energy & mining",
+"amount": 12353835 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Finance",
+"amount": 5671282 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Health & social serv",
+"amount": 1987381 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Industry and trade",
+"amount": 2794670 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Info & communication",
+"amount": 5158705 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Public admin, Law",
+"amount": 15741909 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Transportation",
+"amount": 4793242 
+},
+{
+ "proc_categ": "Consultant Services",
+"major_sector": "Water/sanit/fld prot",
+"amount": 7255959 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Agriculture",
+"amount": 1246177 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Education",
+"amount": 9056431 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Energy & mining",
+"amount": 75689392 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Finance",
+"amount": 4195471 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Health & social serv",
+"amount": 2532355 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Industry and trade",
+"amount": 2201170 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Info & communication",
+"amount": 3367502 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Public admin, Law",
+"amount": 15904803 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Transportation",
+"amount": 17183495 
+},
+{
+ "proc_categ": "Goods",
+"major_sector": "Water/sanit/fld prot",
+"amount": 19179335 
+},
+{
+ "proc_categ": "NC",
+"major_sector": "Agriculture",
+"amount": 18685 
+},
+{
+ "proc_categ": "NC",
+"major_sector": "Energy & mining",
+"amount": 32731 
+},
+{
+ "proc_categ": "NC",
+"major_sector": "Finance",
+"amount": 228140 
+},
+{
+ "proc_categ": "NC",
+"major_sector": "Public admin, Law",
+"amount": 19757 
+} 
+]
+  
+      if(!(opts.type==="pieChart" || opts.type==="sparklinePlus")) {
+        var data = d3.nest()
+          .key(function(d){
+            //return opts.group === undefined ? 'main' : d[opts.group]
+            //instead of main would think a better default is opts.x
+            return opts.group === undefined ? opts.y : d[opts.group];
+          })
+          .entries(data);
+      }
+      
+      if (opts.disabled != undefined){
+        data.map(function(d, i){
+          d.disabled = opts.disabled[i]
+        })
+      }
+      
+      nv.addGraph(function() {
+        var chart = nv.models[opts.type]()
+          .x(function(d) { return d[opts.x] })
+          .y(function(d) { return d[opts.y] })
+          .width(opts.width)
+          .height(opts.height)
+         
+        
+          
+        
+
+        
+        
+        
+      
+       d3.select("#" + opts.id)
+        .append('svg')
+        .datum(data)
+        .transition().duration(500)
+        .call(chart);
+
+       nv.utils.windowResize(chart.update);
+       return chart;
+      });
+    };
+</script>
+    
+  </body>
+</html>

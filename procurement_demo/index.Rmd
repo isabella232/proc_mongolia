@@ -1,0 +1,289 @@
+---
+title       : Demo Analysis with WB Procurement Data
+subtitle    : 
+author      : Tommy Shen
+job         : Data Scientist
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+---
+
+## Demos of Data Analytics & Metrics
+
+Sample visualizations with World Bank Procurement data from 1995 to 2014.
+
+
+```{r echo=FALSE, cache=TRUE}
+wbdat <- read.csv("wb_data.csv")
+
+## Get useable names
+names(wbdat) <- gsub("\\.", "_", tolower(names(wbdat)))
+names(wbdat) <- gsub("__", "_", names(wbdat))
+
+
+wbdat$amount <- as.integer(gsub(",", "", wbdat$amount))
+wbdat$count <- 1
+
+```
+
+---
+
+## Top 10 suppliers by contracts
+
+```{r, echo=FALSE, results='asis'}
+suppressMessages(library(pander))
+topsupplier_amt <- aggregate(cbind(amount,count) ~ supplier, data=wbdat, sum)
+
+a <- head(topsupplier_amt[order(-topsupplier_amt$count),], n=10)
+print("By Contracts")
+pander(a[,c(1,3)], style = 'rmarkdown', split.cells = Inf)
+
+# a <- head(topsupplier_amt[order(-topsupplier_amt$amount),], n=10)
+#pander(a[,1:2], style = 'rmarkdown', split.cells = Inf)
+
+```
+
+---
+
+## Sector distribution of contract awards
+```{r, results='asis'}
+pander(aggregate(count ~ major_sector, data=wbdat, sum), style = 'rmarkdown', split.cells = Inf)
+```
+
+---
+
+## Distribution of contract awards by procurement category
+
+```{r, results='asis'}
+pander(aggregate(count ~ proc_categ, data=wbdat, sum), style = 'rmarkdown', split.cells = Inf)
+```
+
+---
+## Award Ratios by Procurement Method
+```{r fig.height=7, fig.width=12, echo=FALSE}
+library(RColorBrewer)
+proc_meth <- aggregate(cbind(amount,count) ~ proc_meth, data=wbdat, sum)
+
+proc_meth$amount <- proc_meth$amount/sum(proc_meth$amount)
+proc_meth$count <- proc_meth$count/sum(proc_meth$count)
+
+par(mar=c(5,5,2,2))
+barplot(as.matrix(proc_meth[,2:3]),ylim=c(0, 2 + 3), col=colorRampPalette(brewer.pal(8, "Accent"))(16), horiz=TRUE, main="Award Ratios by Procurement Method", legend.text=proc_meth$proc_meth, args.legend = list(y = 2 + 3, bty = "n", ncol=3))
+
+```
+
+---
+
+## Award Ratios by Supplier Country
+
+```{r fig.height=7, fig.width=12, echo=FALSE}
+proc_ctry <- aggregate(cbind(amount,count) ~ supp_ctry, data=wbdat, sum)
+
+proc_ctry$amount <- proc_ctry$amount/sum(proc_ctry$amount)
+proc_ctry$count <- proc_ctry$count/sum(proc_ctry$count)
+
+
+par(mar=c(5,5,2,2))
+barplot(as.matrix(proc_ctry[,2:3]),ylim=c(0, 2 + 3), col=colorRampPalette(brewer.pal(8, "Accent"))(16), horiz=TRUE, main="Award Ratios by Supplier Country", legend.text=proc_ctry$supp_ctry, args.legend = list(y = 2 + 3, bty = "n", ncol=6))
+
+```
+
+---
+
+## Distribution of Spending
+
+```{r results='asis', echo=FALSE}
+library(plyr)
+library(rCharts)
+
+a <- ddply(wbdat, .(proc_categ, major_sector), summarize, amount = sum(amount, na.rm=TRUE))
+sec_plot <- nPlot(amount ~ major_sector, group = 'proc_categ', data=a, type='multiBarChart')
+print(sec_plot)
+
+```
+
+
+---
+
+## Time Series by Procurement Category
+
+```{r results='asis', echo=FALSE}
+categ_series <- aggregate(amount ~ fiscal_year + proc_categ, data=wbdat, sum)
+h1 <- Highcharts$new()
+h1$chart(type = "spline")
+for(i in unique(categ_series$proc_categ)){
+  a <- subset(categ_series, proc_categ==i)
+  b <- sapply(sort(unique(categ_series$fiscal_year)), function(y){
+    if(y %in% a$fiscal_year) return(a$amount[a$fiscal_year==y])
+    else return(NA)
+  })
+  h1$series(data = b, name=i, dashStyle = "shortdash")
+}
+h1$xAxis(categories = sort(unique(categ_series$fiscal_year)))
+h1$legend(symbolWidth = 80)
+h1
+```
+
+
+## Demos of Data Analytics & Metrics
+
+Sample visualizations with World Bank Procurement data from 1995 to 2014.
+
+
+```{r echo=FALSE, cache=TRUE}
+library(plyr)
+library(rCharts)
+wbdat <- read.csv("./data/wb_data.csv")
+
+## Get useable names
+names(wbdat) <- gsub("\\.", "_", tolower(names(wbdat)))
+names(wbdat) <- gsub("__", "_", names(wbdat))
+
+wbdat$amount <- as.integer(gsub(",", "", wbdat$amount))
+wbdat$count <- 1
+
+```
+
+---
+
+## Top 10 suppliers by contracts
+
+```{r, echo=FALSE, results='asis'}
+suppressMessages(library(pander))
+topsupplier_amt <- aggregate(cbind(amount,count) ~ supplier, data=wbdat, sum)
+
+a <- head(topsupplier_amt[order(-topsupplier_amt$count),], n=10)
+print("By Contracts")
+pander(a[,c(1,3)], style = 'rmarkdown', split.cells = Inf)
+
+# a <- head(topsupplier_amt[order(-topsupplier_amt$amount),], n=10)
+#pander(a[,1:2], style = 'rmarkdown', split.cells = Inf)
+
+```
+
+---
+
+## Sector distribution of contract awards
+```{r, results='asis'}
+pander(aggregate(count ~ major_sector, data=wbdat, sum), style = 'rmarkdown', split.cells = Inf)
+```
+
+---
+
+## Distribution of contract awards by procurement category
+
+```{r, results='asis'}
+pander(aggregate(count ~ proc_categ, data=wbdat, sum), style = 'rmarkdown', split.cells = Inf)
+```
+
+---
+## Award Ratios by Procurement Method
+```{r fig.height=7, fig.width=12, echo=FALSE}
+library(RColorBrewer)
+proc_meth <- aggregate(cbind(amount,count) ~ proc_meth, data=wbdat, sum)
+
+proc_meth$amount <- proc_meth$amount/sum(proc_meth$amount)
+proc_meth$count <- proc_meth$count/sum(proc_meth$count)
+
+par(mar=c(5,5,2,2))
+barplot(as.matrix(proc_meth[,2:3]),ylim=c(0, 2 + 3), col=colorRampPalette(brewer.pal(8, "Accent"))(16), horiz=TRUE, main="Award Ratios by Procurement Method", legend.text=proc_meth$proc_meth, args.legend = list(y = 2 + 3, bty = "n", ncol=3))
+
+```
+
+---
+
+## Award Ratios by Supplier Country
+
+```{r fig.height=7, fig.width=12, echo=FALSE}
+proc_ctry <- aggregate(cbind(amount,count) ~ supp_ctry, data=wbdat, sum)
+
+proc_ctry$amount <- proc_ctry$amount/sum(proc_ctry$amount)
+proc_ctry$count <- proc_ctry$count/sum(proc_ctry$count)
+
+
+par(mar=c(5,5,2,2))
+barplot(as.matrix(proc_ctry[,2:3]),ylim=c(0, 2 + 3), col=colorRampPalette(brewer.pal(8, "Accent"))(16), horiz=TRUE, main="Award Ratios by Supplier Country", legend.text=proc_ctry$supp_ctry, args.legend = list(y = 2 + 3, bty = "n", ncol=6))
+
+```
+
+---
+
+## Detailed look at country/sector
+
+```{r fig.height=7, fig.width=12, echo=FALSE, results='asis'}
+library(plyr)
+library(rCharts)
+countries <- aggregate(amount ~ supp_ctry, data=wbdat, sum)
+countries <- countries[order(-countries$amount),]
+countries <- head(countries, n=5)
+
+proc_ctry <- aggregate(amount ~ supp_ctry + major_sector, data=wbdat, sum)
+proc_ctry <- subset(proc_ctry, supp_ctry %in% countries$supp_ctry)
+
+ctry_plot <- nPlot(amount ~ supp_ctry, group = 'major_sector', data=proc_ctry, type='multiBarChart')
+ctry_plot
+
+```
+---
+
+## Distribution of Spending
+
+```{r results='asis', echo=FALSE}
+a <- ddply(wbdat, .(proc_categ, major_sector), summarize, amount = sum(amount, na.rm=TRUE))
+sec_plot <- nPlot(amount ~ major_sector, group = 'proc_categ', data=a, type='multiBarChart')
+sec_plot
+
+```
+
+
+---
+
+
+## Time Series (Top 5 Sectors)
+
+```{r results='asis', echo=FALSE}
+
+sectors <- aggregate(amount ~ major_sector, data=wbdat, sum)
+sectors <- sectors[order(-sectors$amount),]
+sectors <- head(sectors, n=5)
+
+
+categ_series <- aggregate(amount ~ fiscal_year + major_sector, data=wbdat, sum)
+categ_series <- subset(categ_series, major_sector %in% sectors$major_sector)
+h1 <- Highcharts$new()
+h1$chart(type = "spline")
+for(i in unique(categ_series$major_sector)){
+  a <- subset(categ_series, major_sector==i)
+  b <- sapply(sort(unique(categ_series$fiscal_year)), function(y){
+    if(y %in% a$fiscal_year) return(a$amount[a$fiscal_year==y])
+    else return(NA)
+  })
+  h1$series(data = b, name=i, dashStyle = "shortdash")
+}
+h1$xAxis(categories = sort(unique(categ_series$fiscal_year)))
+h1$legend(symbolWidth = 80)
+h1
+```
+
+---
+
+## Time Series by Procurement Category
+
+```{r results='asis', echo=FALSE}
+categ_series <- aggregate(amount ~ fiscal_year + proc_categ, data=wbdat, sum)
+h1 <- Highcharts$new()
+h1$chart(type = "spline")
+for(i in unique(categ_series$proc_categ)){
+  a <- subset(categ_series, proc_categ==i)
+  b <- sapply(sort(unique(categ_series$fiscal_year)), function(y){
+    if(y %in% a$fiscal_year) return(a$amount[a$fiscal_year==y])
+    else return(NA)
+  })
+  h1$series(data = b, name=i, dashStyle = "shortdash")
+}
+h1$xAxis(categories = sort(unique(categ_series$fiscal_year)))
+h1$legend(symbolWidth = 80)
+h1
+```

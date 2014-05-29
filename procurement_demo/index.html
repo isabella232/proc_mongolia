@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Demo Analysis with WB Procurement Data</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Demo Analysis with WB Procurement Data">
+  <meta name="author" content="Tommy Shen">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <hgroup class="auto-fadein">
+        <h1>Demo Analysis with WB Procurement Data</h1>
+        <h2></h2>
+        <p>Tommy Shen<br/>Data Scientist</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Demos of Data Analytics &amp; Metrics</h2>
+  </hgroup>
+  <article>
+    <p>Sample visualizations with World Bank Procurement data from 1995 to 2014.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Top 10 suppliers by contracts</h2>
+  </hgroup>
+  <article>
+    <p>[1] &quot;By Contracts&quot;</p>
+
+<table><thead>
+<tr>
+<th align="center">&nbsp;</th>
+<th align="center">supplier</th>
+<th align="center">count</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center"><strong>28</strong></td>
+<td align="center">ANGELIQUE INTERNATIONAL</td>
+<td align="center">18</td>
+</tr>
+<tr>
+<td align="center"><strong>442</strong></td>
+<td align="center">MCS ELECTRONICS</td>
+<td align="center">16</td>
+</tr>
+<tr>
+<td align="center"><strong>3</strong></td>
+<td align="center">A/S VENTART, TALINN, ESTONIA</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="center"><strong>34</strong></td>
+<td align="center">AO BITOTECH</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="center"><strong>133</strong></td>
+<td align="center">CENTER FOR POLICY RESEARCH</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="center"><strong>156</strong></td>
+<td align="center">CLYDE E. GOULDEN</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="center"><strong>115</strong></td>
+<td align="center">BSB SERVICE CO., LTD.</td>
+<td align="center">10</td>
+</tr>
+<tr>
+<td align="center"><strong>175</strong></td>
+<td align="center">DALAIVAN AUDIT LLC</td>
+<td align="center">9</td>
+</tr>
+<tr>
+<td align="center"><strong>227</strong></td>
+<td align="center">ERDENE ZAM</td>
+<td align="center">9</td>
+</tr>
+<tr>
+<td align="center"><strong>344</strong></td>
+<td align="center">ITOCHU CORPORATION</td>
+<td align="center">9</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Sector distribution of contract awards</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">pander(aggregate(count ~ major_sector, data = wbdat, sum), style = &quot;rmarkdown&quot;, 
+    split.cells = Inf)
+</code></pre>
+
+<table><thead>
+<tr>
+<th align="center">major_sector</th>
+<th align="center">count</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center">(H)Environment</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">Agriculture</td>
+<td align="center">114</td>
+</tr>
+<tr>
+<td align="center">Education</td>
+<td align="center">93</td>
+</tr>
+<tr>
+<td align="center">Energy &amp; mining</td>
+<td align="center">183</td>
+</tr>
+<tr>
+<td align="center">Finance</td>
+<td align="center">103</td>
+</tr>
+<tr>
+<td align="center">Health &amp; social serv</td>
+<td align="center">46</td>
+</tr>
+<tr>
+<td align="center">Industry and trade</td>
+<td align="center">71</td>
+</tr>
+<tr>
+<td align="center">Info &amp; communication</td>
+<td align="center">27</td>
+</tr>
+<tr>
+<td align="center">Public admin, Law</td>
+<td align="center">511</td>
+</tr>
+<tr>
+<td align="center">Transportation</td>
+<td align="center">83</td>
+</tr>
+<tr>
+<td align="center">Water/sanit/fld prot</td>
+<td align="center">185</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Distribution of contract awards by procurement category</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">pander(aggregate(count ~ proc_categ, data = wbdat, sum), style = &quot;rmarkdown&quot;, 
+    split.cells = Inf)
+</code></pre>
+
+<table><thead>
+<tr>
+<th align="center">proc_categ</th>
+<th align="center">count</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center">Civil Works</td>
+<td align="center">204</td>
+</tr>
+<tr>
+<td align="center">Consultant Services</td>
+<td align="center">690</td>
+</tr>
+<tr>
+<td align="center">Goods</td>
+<td align="center">504</td>
+</tr>
+<tr>
+<td align="center">NC</td>
+<td align="center">19</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Award Ratios by Procurement Method</h2>
+  </hgroup>
+  <article>
+    <p><img src="figure/unnamed-chunk-5.png" alt="plot of chunk unnamed-chunk-5"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Award Ratios by Supplier Country</h2>
+  </hgroup>
+  <article>
+    <p><img src="figure/unnamed-chunk-6.png" alt="plot of chunk unnamed-chunk-6"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Distribution of Spending</h2>
+  </hgroup>
+  <article>
+    <iframe src='
+figure/unnamed-chunk-7.html
+' scrolling='no' seamless class='rChart 
+nvd3
+ '
+id=iframe-
+chart18644ea045f8
+></iframe>
+
+<style>iframe.rChart{ width: 100%; height: 400px;}</style>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Time Series by Procurement Category</h2>
+  </hgroup>
+  <article>
+    <iframe src='
+figure/unnamed-chunk-8.html
+' scrolling='no' seamless class='rChart 
+highcharts
+ '
+id=iframe-
+chart1864ca231a8
+></iframe>
+
+<style>iframe.rChart{ width: 100%; height: 400px;}</style>
+
+<h2>Demos of Data Analytics &amp; Metrics</h2>
+
+<p>Sample visualizations with World Bank Procurement data from 1995 to 2014.</p>
+
+<pre><code>## Warning: cannot open file &#39;./data/wb_data.csv&#39;: No such file or directory
+</code></pre>
+
+<pre><code>## Error: cannot open the connection
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Top 10 suppliers by contracts</h2>
+  </hgroup>
+  <article>
+    <p>[1] &quot;By Contracts&quot;</p>
+
+<table><thead>
+<tr>
+<th align="center">&nbsp;</th>
+<th align="center">supplier</th>
+<th align="center">count</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center"><strong>28</strong></td>
+<td align="center">ANGELIQUE INTERNATIONAL</td>
+<td align="center">18</td>
+</tr>
+<tr>
+<td align="center"><strong>442</strong></td>
+<td align="center">MCS ELECTRONICS</td>
+<td align="center">16</td>
+</tr>
+<tr>
+<td align="center"><strong>3</strong></td>
+<td align="center">A/S VENTART, TALINN, ESTONIA</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="center"><strong>34</strong></td>
+<td align="center">AO BITOTECH</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="center"><strong>133</strong></td>
+<td align="center">CENTER FOR POLICY RESEARCH</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="center"><strong>156</strong></td>
+<td align="center">CLYDE E. GOULDEN</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="center"><strong>115</strong></td>
+<td align="center">BSB SERVICE CO., LTD.</td>
+<td align="center">10</td>
+</tr>
+<tr>
+<td align="center"><strong>175</strong></td>
+<td align="center">DALAIVAN AUDIT LLC</td>
+<td align="center">9</td>
+</tr>
+<tr>
+<td align="center"><strong>227</strong></td>
+<td align="center">ERDENE ZAM</td>
+<td align="center">9</td>
+</tr>
+<tr>
+<td align="center"><strong>344</strong></td>
+<td align="center">ITOCHU CORPORATION</td>
+<td align="center">9</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Sector distribution of contract awards</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">pander(aggregate(count ~ major_sector, data = wbdat, sum), style = &quot;rmarkdown&quot;, 
+    split.cells = Inf)
+</code></pre>
+
+<table><thead>
+<tr>
+<th align="center">major_sector</th>
+<th align="center">count</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center">(H)Environment</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">Agriculture</td>
+<td align="center">114</td>
+</tr>
+<tr>
+<td align="center">Education</td>
+<td align="center">93</td>
+</tr>
+<tr>
+<td align="center">Energy &amp; mining</td>
+<td align="center">183</td>
+</tr>
+<tr>
+<td align="center">Finance</td>
+<td align="center">103</td>
+</tr>
+<tr>
+<td align="center">Health &amp; social serv</td>
+<td align="center">46</td>
+</tr>
+<tr>
+<td align="center">Industry and trade</td>
+<td align="center">71</td>
+</tr>
+<tr>
+<td align="center">Info &amp; communication</td>
+<td align="center">27</td>
+</tr>
+<tr>
+<td align="center">Public admin, Law</td>
+<td align="center">511</td>
+</tr>
+<tr>
+<td align="center">Transportation</td>
+<td align="center">83</td>
+</tr>
+<tr>
+<td align="center">Water/sanit/fld prot</td>
+<td align="center">185</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Distribution of contract awards by procurement category</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">pander(aggregate(count ~ proc_categ, data = wbdat, sum), style = &quot;rmarkdown&quot;, 
+    split.cells = Inf)
+</code></pre>
+
+<table><thead>
+<tr>
+<th align="center">proc_categ</th>
+<th align="center">count</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center">Civil Works</td>
+<td align="center">204</td>
+</tr>
+<tr>
+<td align="center">Consultant Services</td>
+<td align="center">690</td>
+</tr>
+<tr>
+<td align="center">Goods</td>
+<td align="center">504</td>
+</tr>
+<tr>
+<td align="center">NC</td>
+<td align="center">19</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Award Ratios by Procurement Method</h2>
+  </hgroup>
+  <article>
+    <p><img src="figure/unnamed-chunk-13.png" alt="plot of chunk unnamed-chunk-13"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Award Ratios by Supplier Country</h2>
+  </hgroup>
+  <article>
+    <p><img src="figure/unnamed-chunk-14.png" alt="plot of chunk unnamed-chunk-14"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Detailed look at country/sector</h2>
+  </hgroup>
+  <article>
+    <iframe src='
+figure/unnamed-chunk-15.html
+' scrolling='no' seamless class='rChart 
+nvd3
+ '
+id=iframe-
+chart186453a5e50
+></iframe>
+
+<style>iframe.rChart{ width: 100%; height: 400px;}</style>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Distribution of Spending</h2>
+  </hgroup>
+  <article>
+    <iframe src='
+figure/unnamed-chunk-16.html
+' scrolling='no' seamless class='rChart 
+nvd3
+ '
+id=iframe-
+chart18645ba937
+></iframe>
+
+<style>iframe.rChart{ width: 100%; height: 400px;}</style>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Time Series (Top 5 Sectors)</h2>
+  </hgroup>
+  <article>
+    <iframe src='
+figure/unnamed-chunk-17.html
+' scrolling='no' seamless class='rChart 
+highcharts
+ '
+id=iframe-
+chart18642cc13106
+></iframe>
+
+<style>iframe.rChart{ width: 100%; height: 400px;}</style>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Time Series by Procurement Category</h2>
+  </hgroup>
+  <article>
+    <iframe src='
+figure/unnamed-chunk-18.html
+' scrolling='no' seamless class='rChart 
+highcharts
+ '
+id=iframe-
+chart186417946f6a
+></iframe>
+
+<style>iframe.rChart{ width: 100%; height: 400px;}</style>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>
